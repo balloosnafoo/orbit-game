@@ -34,7 +34,11 @@
       var velocity = Asteroids.Util.connectingVector(
         this.createPos,
         this.cursor.pos
-      ) * .001;
+      );
+
+      velocity[0] *= .01;
+      velocity[1] *= .01;
+
       var newAsteroid = new Asteroids.Asteroid({
         pos: this.createPos,
         vel: velocity

@@ -32,7 +32,7 @@
   Util.connectingVector = function (fromPos, toPos) {
     return [
       toPos[0] - fromPos[0],
-      toPos[1] - fromPos[1],
+      toPos[1] - fromPos[1]
     ];
   };
 
