@@ -11,12 +11,23 @@
     this.radius = options.radius || MovingObject.RADIUS;
   };
 
-  MovingObject.RADIUS = 10;
+  MovingObject.RADIUS = 20;
   MovingObject.COLOR = "#fff";
 
   MovingObject.prototype.move = function () {
-    this.pos[0] = Math.abs((this.pos[0] += this.vel[0]) % Asteroids.Game.DIM_X);
-    this.pos[1] = Math.abs((this.pos[1] += this.vel[1]) % Asteroids.Game.DIM_Y);
+    var newPos = [
+      this.pos[0] + this.vel[0],
+      this.pos[1] + this.vel[1]
+    ];
+
+    // This Logic assumes that the window is a square
+    for (var i = 0; i < newPos.length; i++) {
+      if (newPos[i] < 0) {
+        this.pos[i] = newPos[i] + Asteroids.Game.DIM_X;
+      } else {
+        this.pos[i] = newPos[i] % Asteroids.Game.DIM_X;
+      }
+    };
   };
 
   MovingObject.prototype.draw = function (ctx) {
