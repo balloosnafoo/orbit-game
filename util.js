@@ -13,4 +13,20 @@
     ChildClass.constructor = ChildClass;
   };
 
+  Util.randomVec = function (length) {
+    var degree = 2 * Math.PI * Math.random();
+    return Util.scale([Math.sin(degree), Math.cos(degree)], length);
+  };
+
+  Util.scale = function (vec, m) {
+    return [vec[0] * m, vec[1] * m];
+  };
+
+  Util.distance = function (pos1, pos2) {
+    return Math.sqrt(
+      (pos1[0] - pos2[0]).exp(2) +
+      (pos1[1] + pos2[1]).exp(2)
+    );
+  };
+
 })();
