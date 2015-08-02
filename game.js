@@ -67,8 +67,8 @@
     for (var i = 0; i < this.asteroids.length; i++) {
       for (var j = 0; j < this.allObjects().length; j++) {
         if (i === j) continue;
-        if this.asteroids[i].isCollidedWith(this.allObjects()[j]) {
-          // Do something.
+        if (this.asteroids[i].isCollidedWith(this.allObjects()[j])) {
+          // alert("collision!");
         }
       }
     }

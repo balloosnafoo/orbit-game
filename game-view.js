@@ -13,6 +13,7 @@
     setInterval(
       function(){
         this.game.moveObjects();
+        this.game.checkCollisions();
         this.game.draw(this.ctx);
       }.bind(this),
       20
