@@ -16,7 +16,6 @@
   MovingObject.COLOR = "#fff";
 
   MovingObject.prototype.move = function () {
-    // var vel = this.applyPullVectors();
     this.applyPullVectors();
     var newPos = [
       this.pos[0] + this.vel[0],
@@ -54,7 +53,6 @@
   };
 
   MovingObject.prototype.applyPullVectors = function () {
-    // var newVector = this.vel.slice();
     for (var i = 0; i < this.pullVectors.length; i++) {
       if (this.vel[0] < 7) {
         this.vel[0] += this.pullVectors[i][0];
@@ -64,7 +62,6 @@
       }
     }
     this.pullVectors = [];
-    // return newVector;
   };
 
 })();

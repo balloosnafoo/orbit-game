@@ -4,10 +4,12 @@
   }
 
   var Game = Asteroids.Game = function () {
-    this.asteroids = this.addAsteroids();
+    this.asteroids = []; // this.addAsteroids();
     this.planet = new Asteroids.Planet({
       pos: [Math.floor(Game.DIM_X / 2), Math.floor(Game.DIM_Y / 2)]
     });
+    this.cursor = new Asteroids.Cursor({game: this});
+    this.createPos = null;
   }
 
   Game.DIM_X = 750;
@@ -25,11 +27,28 @@
     return asteroids;
   };
 
+  Game.prototype.createObject = function () {
+    if (!this.createPos) {
+      this.createPos = this.cursor.pos.slice();
+    } else {
+      var velocity = Asteroids.Util.connectingVector(
+        this.createPos,
+        this.cursor.pos
+      ) * .001;
+      var newAsteroid = new Asteroids.Asteroid({
+        pos: this.createPos,
+        vel: velocity
+      });
+      this.createPos = null;
+      this.asteroids.push(newAsteroid);
+    }
+  };
+
   Game.prototype.allObjects = function () {
     return this.asteroids.concat(
       [this.planet]
     );
-  }
+  };
 
   Game.prototype.moveObjects = function () {
     var objects = this.allObjects();
@@ -54,7 +73,9 @@
     this.allObjects().forEach(function (object) {
       object.draw(ctx);
     });
-  }
+
+    this.cursor.draw(ctx);
+  };
 
   Game.prototype.calculateGravity = function (object) {
     var gravVec = Asteroids.Util.connectingVector(object.pos, this.planet.pos);
