@@ -1,42 +1,46 @@
 (function() {
-  if (Asteroids typeof === "undefined"){
+  if (typeof Asteroids === "undefined"){
     window.Asteroids = {};
   }
 
-  var Game = Asteroids.Game = function (dim_x, dim_y) {
-    this.DIM_X = dim_x;
-    this.DIM_Y = dim_y;
+  var Game = Asteroids.Game = function () {
     this.asteroids = this.addAsteroids();
-    this.objects = this.asteroids.concat([]); //later the ship should go in the concat
   }
 
+  Game.DIM_X = 1000;
+  Game.DIM_Y = 1000;
   Game.NUM_ASTEROIDS = 10;
-  Game.BG_COLOR = "white";
+  Game.BG_COLOR = "#000000";
 
-  Game.addAsteroids = function () {
+  Game.prototype.addAsteroids = function () {
     var asteroids = [];
-    for (var i = 0; i < Game.NUM_ASTEROIDS.length; i++) {
-      asteroids.push(new Asteriods.Asteroid([]{
-        pos: Game.randomPosition();
+    for (var i = 0; i < Game.NUM_ASTEROIDS; i++) {
+      asteroids.push(new Asteroids.Asteroid({
+        pos: this.randomPosition()
       }));
     }
     return asteroids;
   };
 
-  Game.moveObjects = function () {
-    for (var i = 0; i < this.objects.length; i++) {
-      this.objects[i]
+  Game.prototype.allObjects = function () {
+    return this.asteroids;
+  }
+
+  Game.prototype.moveObjects = function () {
+    var objects = this.allObjects();
+    for (var i = 0; i < objects.length; i++) {
+      objects[i].move();
     }
   };
 
-  Game.randomPosition = function () {
+  Game.prototype.randomPosition = function () {
     return [
-      Math.random() * Game.DIM_X;
-      Math.random() * Game.DIM_y;
+      (Math.random() * Game.DIM_X),
+      (Math.random() * Game.DIM_Y)
     ];
   };
 
-  Game.draw = function (ctx) {
+  Game.prototype.draw = function (ctx) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);

@@ -1,6 +1,6 @@
 (function() {
 
-  if (Asteroids typeof === "undefined") {
+  if (typeof Asteroids === "undefined") {
     window.Asteroids = {};
   };
 

@@ -3,9 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <script type="text/javascript" src="./moving-objects.js">
 
-    </script>
+    <script type="text/javascript" src="./util.js"></script>
+    <script type="text/javascript" src="./moving-object.js"></script>
+    <script type="text/javascript" src="./asteroid.js"></script>
+    <script type="text/javascript" src="./game.js"></script>
+    <script type="text/javascript" src="./game-view.js"></script>
+
     <style>
       html, body, canvas {
         padding: 0px;
@@ -14,15 +18,16 @@
     </style>
   </head>
   <body>
-    <canvas id="canvas"></canvas>
-    <script>
-      var canvasEl = document.getElementsByTagName("canvas")[0];
-      canvasEl.height = window.innerHeight;
-      canvasEl.width = window.innerWidth;
-      new Asteroids.Game(
-        canvasEl.width,
-        canvasEl.height
-      ).start(canvasEl);
+    <canvas id="game-canvas"></canvas>
+    <script type="application/javascript">
+      // (function () {
+        var canvasEl = document.getElementById("game-canvas");
+        canvasEl.width = Asteroids.Game.DIM_X;
+        canvasEl.height = Asteroids.Game.DIM_Y;
+        var ctx = canvasEl.getContext("2d");
+        var game = new Asteroids.Game();
+        new Asteroids.GameView(game, ctx).start();
+      // })();
     </script>
   </body>
 </html>
