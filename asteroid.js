@@ -5,7 +5,7 @@
 
   var Asteroid = Asteroids.Asteroid = function (options) {
     options.pos = options.pos || options.game.randomPosition();
-    options.vel = options.vel || Asteroids.Util.randomVec(5);
+    options.vel = options.vel || Asteroids.Util.randomVec(1);
     options.color = options.color || Asteroid.COLOR;
     options.radius = options.radius || Asteroid.randomSize();
 
@@ -17,7 +17,11 @@
   Asteroid.COLOR = "#fff";
 
   Asteroid.randomSize = function () {
-    return Math.floor( ((Math.random() * 4) + 2) * 10 );
+    return Math.floor( ((Math.random() * 3) + 1) * 10 );
   }
+
+  Asteroid.prototype.receivePull = function (vector) {
+    this.pullVectors = this.pullVectors.concat([vector]);
+  };
 
 })();

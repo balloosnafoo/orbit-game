@@ -1,0 +1,9 @@
+
+body {
+  width: 100%;
+}
+
+#game-canvas {
+  display: block;
+  margin: auto;
+}

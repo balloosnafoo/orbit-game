@@ -24,9 +24,16 @@
 
   Util.distance = function (pos1, pos2) {
     return Math.sqrt(
-      (pos1[0] - pos2[0]).exp(2) +
-      (pos1[1] + pos2[1]).exp(2)
+      Math.pow((pos1[0] - pos2[0]), 2) +
+      Math.pow((pos1[1] + pos2[1]), 2)
     );
+  };
+
+  Util.connectingVector = function (fromPos, toPos) {
+    return [
+      toPos[0] - fromPos[0],
+      toPos[1] - fromPos[1],
+    ];
   };
 
 })();
