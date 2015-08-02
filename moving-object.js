@@ -56,8 +56,12 @@
   MovingObject.prototype.applyPullVectors = function () {
     // var newVector = this.vel.slice();
     for (var i = 0; i < this.pullVectors.length; i++) {
-      this.vel[0] += this.pullVectors[i][0];
-      this.vel[1] += this.pullVectors[i][1];
+      if (this.vel[0] < 7) {
+        this.vel[0] += this.pullVectors[i][0];
+      }
+      if (this.vel[1] < 7) {
+        this.vel[1] += this.pullVectors[i][1];
+      }
     }
     this.pullVectors = [];
     // return newVector;
