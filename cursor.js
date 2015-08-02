@@ -13,10 +13,10 @@
   };
 
   Cursor.STEP_VECTORS = {
-    "up":    [ 0,-5],
-    "left":  [-5, 0],
-    "down":  [ 0, 5],
-    "right": [ 5, 0]
+    "up":    [ 0,-10],
+    "left":  [-10, 0],
+    "down":  [ 0, 10],
+    "right": [ 10, 0]
   }
 
   Cursor.prototype.move = function (dir) {

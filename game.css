@@ -7,3 +7,11 @@ body {
   display: block;
   margin: auto;
 }
+
+h1 {
+  display: block;
+  margin: auto;
+  font-size: 100px;
+  font-family: sans-serif;
+  text-align: center;
+}

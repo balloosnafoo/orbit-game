@@ -64,4 +64,9 @@
     this.pullVectors = [];
   };
 
+  MovingObject.prototype.isCollidedWith = function (otherObject) {
+    var distance = Asteroids.Util.distance(this.pos, otherObject.pos);
+    return distance < this.radius + otherObject.radius;
+  };
+
 })();
