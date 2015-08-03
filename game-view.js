@@ -14,6 +14,7 @@
       function(){
         this.game.moveObjects();
         this.game.checkCollisions();
+        this.game.deleteLostObjects();
         this.game.draw(this.ctx);
       }.bind(this),
       20

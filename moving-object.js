@@ -17,25 +17,8 @@
 
   MovingObject.prototype.move = function () {
     this.applyPullVectors();
-    var newPos = [
-      this.pos[0] + this.vel[0],
-      this.pos[1] + this.vel[1]
-    ];
-    var diameter = this.radius * 2
-
-    // This Logic assumes that the window is a square
-    // I was also trying to avoid having things pop up already half way
-    // on screen, but it doesn't seem to be working.
-    for (var i = 0; i < newPos.length; i++) {
-      if (newPos[i] + diameter < 0) {
-        this.pos[i] = newPos[i] + Asteroids.Game.DIM_X + diameter;
-      } else if (newPos[i] > Asteroids.Game.DIM_X + diameter) {
-        // I think this is causing some modulo problems
-        this.pos[i] = (newPos[i] % Asteroids.Game.DIM_X) - diameter;
-      } else {
-        this.pos[i] = newPos[i];
-      }
-    };
+    this.pos[0] += this.vel[0],
+    this.pos[1] += this.vel[1]
   };
 
   MovingObject.prototype.draw = function (ctx) {

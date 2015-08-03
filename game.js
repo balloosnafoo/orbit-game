@@ -10,6 +10,7 @@
     });
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
+    this.dyingObjects = [];
   }
 
   Game.DIM_X = 750;
@@ -36,8 +37,8 @@
         this.cursor.pos
       );
 
-      velocity[0] *= .01;
-      velocity[1] *= .01;
+      velocity[0] *= .1;
+      velocity[1] *= .1;
 
       var newAsteroid = new Asteroids.Asteroid({
         pos: this.createPos,
@@ -64,14 +65,46 @@
 
   // UNFINISHED, UNINTEGRATED
   Game.prototype.checkCollisions = function () {
+    var dyingObjectArr = [];
     for (var i = 0; i < this.asteroids.length; i++) {
       for (var j = 0; j < this.allObjects().length; j++) {
         if (i === j) continue;
         if (this.asteroids[i].isCollidedWith(this.allObjects()[j])) {
-          // alert("collision!");
+          dyingObjectArr.push(i);
         }
       }
     }
+    this.dyingObjects = this.separateObjects(dyingObjectArr);
+  };
+
+  // Finds all lost asteroids, makes new array excluding those and updates
+  // this.asteroids. Ensures that game is not slowed by orphaned objects flying
+  // into the depths of space.
+  Game.prototype.deleteLostObjects = function () {
+    var exclusionArr = [];
+    for (var i = 0; i < this.asteroids.length; i++) {
+      if (this.asteroids[i].pos[0] > (Game.DIM_X * 1.5) ||
+          this.asteroids[i].pos[0] < 0 - (Game.DIM_X * .5) ||
+          this.asteroids[i].pos[1] > (Game.DIM_Y * 1.5) ||
+          this.asteroids[i].pos[1] < 0 - (Game.DIM_Y * .5)) {
+        exclusionArr.push(i);
+      }
+    }
+    this.separateObjects(exclusionArr);
+  };
+
+  Game.prototype.separateObjects = function (exclusionArr) {
+    var remainingObjects = [];
+    var otherObjects = [];
+    for (var i = 0; i < this.asteroids.length; i++) {
+      if (exclusionArr.indexOf(i) === -1){
+        remainingObjects.push(this.asteroids[i]);
+      } else {
+        otherObjects.push(this.asteroids[i]);
+      }
+    }
+    this.asteroids = remainingObjects.slice();
+    return otherObjects;
   };
 
   Game.prototype.randomPosition = function () {
