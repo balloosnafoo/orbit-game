@@ -3,33 +3,24 @@
     window.Asteroids = {};
   }
 
-  var Game = Asteroids.Game = function (images) {
-    this.images = images;
+  var Game = Asteroids.Game = function (options) {
+    this.images = options.images;
     this.asteroids = []; // this.addAsteroids();
+    this.width = options.width;
+    this.height = options.height;
+    this.images = options.images;
     this.planet = new Asteroids.Planet({
-      pos: [Math.floor(Game.DIM_X / 2), Math.floor(Game.DIM_Y / 2)],
-      image: images.earth
+      pos: [Math.floor(this.width / 2), Math.floor(this.height / 2)],
+      image: this.images.earth
     });
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
     this.dyingObjects = [];
   }
 
-  Game.DIM_X = 750;
-  Game.DIM_Y = 750;
-  Game.NUM_ASTEROIDS = 10;
+  // Game.DIM_X = 750;
+  // Game.DIM_Y = 750;
   Game.BG_COLOR = "#000000";
-
-  Game.prototype.addAsteroids = function () {
-    var asteroids = [];
-    for (var i = 0; i < Game.NUM_ASTEROIDS; i++) {
-      asteroids.push(new Asteroids.Asteroid({
-        pos: this.randomPosition(),
-        image: this.images.moon
-      }));
-    }
-    return asteroids;
-  };
 
   Game.prototype.createObject = function () {
     if (!this.createPos) {
@@ -86,10 +77,10 @@
   Game.prototype.deleteLostObjects = function () {
     var exclusionArr = [];
     for (var i = 0; i < this.asteroids.length; i++) {
-      if (this.asteroids[i].pos[0] > (Game.DIM_X * 1.5) ||
-          this.asteroids[i].pos[0] < 0 - (Game.DIM_X * .5) ||
-          this.asteroids[i].pos[1] > (Game.DIM_Y * 1.5) ||
-          this.asteroids[i].pos[1] < 0 - (Game.DIM_Y * .5)) {
+      if (this.asteroids[i].pos[0] > (this.width * 2) ||
+          this.asteroids[i].pos[0] < 0 - (this.width * 2) ||
+          this.asteroids[i].pos[1] > (this.height) ||
+          this.asteroids[i].pos[1] < 0 - (this.height)) {
         exclusionArr.push(i);
       }
     }
@@ -113,15 +104,15 @@
 
   Game.prototype.randomPosition = function () {
     return [
-      (Math.random() * Game.DIM_X),
-      (Math.random() * Game.DIM_Y)
+      (Math.random() * this.width),
+      (Math.random() * this.height)
     ];
   };
 
   Game.prototype.draw = function (ctx) {
-    ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+    ctx.clearRect(0, 0, this.width, this.height);
     ctx.fillStyle = Game.BG_COLOR;
-    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
+    ctx.fillRect(0, 0, this.width, this.height);
 
     this.allObjects().forEach(function (object) {
       object.draw(ctx);
@@ -133,8 +124,8 @@
   Game.prototype.calculateGravity = function (object) {
     var gravVec = Asteroids.Util.connectingVector(object.pos, this.planet.pos);
     var distance = Asteroids.Util.distance(object.pos, this.planet.pos);
-    gravVec[0] *= .001 - (distance * .000001);
-    gravVec[1] *= .001 - (distance * .000001);
+    gravVec[0] *= 3 * ( 1 / (distance * distance));
+    gravVec[1] *= 3 * ( 1 / (distance * distance));
     object.receivePull(gravVec)
   };
 

@@ -5,8 +5,8 @@
 
   var Cursor = Asteroids.Cursor = function (options) {
     this.pos = [
-      Math.floor(Asteroids.Game.DIM_X / 2),
-      Math.floor(Asteroids.Game.DIM_Y * .75)
+      Math.floor(options.game.width / 2),
+      Math.floor(options.game.height * .75)
     ];
     this.game = options.game;
     this.bindKeys();
