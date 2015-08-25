@@ -8,6 +8,7 @@
     this.pos = options.pos;
     this.vel = options.vel;
     this.color = options.color || MovingObject.COLOR;
+    this.image = options.image;
     this.radius = options.radius || MovingObject.RADIUS;
     this.pullVectors = [];
 
@@ -27,17 +28,30 @@
   };
 
   MovingObject.prototype.draw = function (ctx) {
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(
-      this.pos[0],
-      this.pos[1],
-      this.radius,
+    // ctx.fillStyle = this.color;
+    // ctx.beginPath();
+    // ctx.arc(
+    //   this.pos[0],
+    //   this.pos[1],
+    //   this.radius,
+    //   0,
+    //   2 * Math.PI,
+    //   true
+    // );
+    // ctx.fill();
+    // debugger;
+
+    ctx.drawImage(
+      this.image,
       0,
-      2 * Math.PI,
-      true
+      0,
+      this.image.height,
+      this.image.height,
+      this.pos[0] - this.radius,
+      this.pos[1] - this.radius,
+      this.radius * 2,
+      this.radius * 2
     );
-    ctx.fill();
   };
 
   MovingObject.prototype.applyPullVectors = function () {

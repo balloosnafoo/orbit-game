@@ -3,10 +3,12 @@
     window.Asteroids = {};
   }
 
-  var Game = Asteroids.Game = function () {
+  var Game = Asteroids.Game = function (images) {
+    this.images = images;
     this.asteroids = []; // this.addAsteroids();
     this.planet = new Asteroids.Planet({
-      pos: [Math.floor(Game.DIM_X / 2), Math.floor(Game.DIM_Y / 2)]
+      pos: [Math.floor(Game.DIM_X / 2), Math.floor(Game.DIM_Y / 2)],
+      image: images.earth
     });
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
@@ -22,7 +24,8 @@
     var asteroids = [];
     for (var i = 0; i < Game.NUM_ASTEROIDS; i++) {
       asteroids.push(new Asteroids.Asteroid({
-        pos: this.randomPosition()
+        pos: this.randomPosition(),
+        image: this.images.moon
       }));
     }
     return asteroids;
@@ -42,7 +45,8 @@
 
       var newAsteroid = new Asteroids.Asteroid({
         pos: this.createPos,
-        vel: velocity
+        vel: velocity,
+        image: this.images.moon
       });
       this.createPos = null;
       this.asteroids.push(newAsteroid);

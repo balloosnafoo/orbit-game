@@ -3,9 +3,10 @@
     window.Asteroids = {};
   }
 
-  var GameView = Asteroids.GameView = function (game, ctx, scoreboard) {
+  var GameView = Asteroids.GameView = function (game, ctx, images, scoreboard) {
     this.game = game;
     this.ctx = ctx;
+    this.images = images;
     this.start();
     this.scoreboard = scoreboard;
   };

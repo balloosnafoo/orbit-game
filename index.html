@@ -28,33 +28,33 @@
         clear: both;
         position: absolute;
       }
-
-      #game-canvas {
-      }
-
-      /*.page-divider {
-        display: inline-block;
-      }
-
-      .page-divider.left {
-        width: 30%;
-      }*/
     </style>
   </head>
   <body>
     <h1>ORBIT GAME</h1>
-    <div id="scoreboard"></div>
+    <div id="scoreboard">
+      <ul class="records"></ul>
+      <ul class="current-asteroids"></ul>
+    </div>
     <canvas id="game-canvas"></canvas>
+    <div style="display:none;">
+      <img id="source-earth" src="http://i.imgur.com/otF17Fi.png">
+      <img id="source-moon" src="http://i.imgur.com/9L66AZe.png">
+    </div>
 
     <script type="application/javascript">
       // (function () {
         var canvasEl = document.getElementById("game-canvas");
+        var images = {
+          earth: document.getElementById('source-earth'),
+          moon: document.getElementById('source-moon')
+        }
         var $scoreboardEl = $("#scoreboard")
         canvasEl.width = Asteroids.Game.DIM_X;
         canvasEl.height = Asteroids.Game.DIM_Y;
         var ctx = canvasEl.getContext("2d");
-        var game = new Asteroids.Game();
-        new Asteroids.GameView(game, ctx, $scoreboardEl).start();
+        var game = new Asteroids.Game(images);
+        new Asteroids.GameView(game, ctx, images, $scoreboardEl).start();
       // })();
     </script>
   </body>
