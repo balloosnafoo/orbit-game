@@ -18,20 +18,20 @@
         this.game.deleteLostObjects();
         this.game.draw(this.ctx);
 
-        var scoreInfo = this.game.getScoreInfo();
-        this.updateScoreboard(scoreInfo);
+        // var scoreInfo = this.game.getScoreInfo();
+        // this.updateScoreboard(scoreInfo);
       }.bind(this),
       20
     );
   };
 
-  GameView.prototype.updateScoreboard = function (scoreInfo) {
-    this.scoreboard.html("");
-    for (var i = 0; i < scoreInfo.length; i++) {
-      var showStability = scoreInfo[i].rotations > 10 ? " (stable)" : ""
-      this.scoreboard.append(
-        "<li>Asteroid #" + scoreInfo[i].id + ": " + scoreInfo[i].rotations + showStability + "</li>"
-      );
-    }
-  };
+  // GameView.prototype.updateScoreboard = function (scoreInfo) {
+  //   this.scoreboard.html("");
+  //   for (var i = 0; i < scoreInfo.length; i++) {
+  //     var showStability = scoreInfo[i].rotations > 10 ? " (stable)" : ""
+  //     this.scoreboard.append(
+  //       "<li>Asteroid #" + scoreInfo[i].id + ": " + scoreInfo[i].rotations + showStability + "</li>"
+  //     );
+  //   }
+  // };
 })();

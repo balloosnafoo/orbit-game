@@ -9,6 +9,7 @@
     this.width = options.width;
     this.height = options.height;
     this.images = options.images;
+    this.objectSize = 10;
     this.planet = new Asteroids.Planet({
       pos: [Math.floor(this.width / 2), Math.floor(this.height / 2)],
       image: this.images.earth
@@ -37,7 +38,8 @@
       var newAsteroid = new Asteroids.Asteroid({
         pos: this.createPos,
         vel: velocity,
-        image: this.images.moon
+        image: this.images.moon,
+        radius: this.objectSize
       });
       this.createPos = null;
       this.asteroids.push(newAsteroid);
@@ -53,7 +55,11 @@
   Game.prototype.moveObjects = function () {
     var objects = this.allObjects();
     for (var i = 0; i < objects.length; i++) {
-      this.calculateGravity(objects[i]);
+      for (var j = 0; j < objects.length; j++) {
+        if (i !== j) {
+          this.calculateGravity(objects[i], objects[j]);
+        }
+      }
       objects[i].move();
     }
   };
@@ -79,8 +85,8 @@
     for (var i = 0; i < this.asteroids.length; i++) {
       if (this.asteroids[i].pos[0] > (this.width * 2) ||
           this.asteroids[i].pos[0] < 0 - (this.width * 2) ||
-          this.asteroids[i].pos[1] > (this.height) ||
-          this.asteroids[i].pos[1] < 0 - (this.height)) {
+          this.asteroids[i].pos[1] > (this.height * 2) ||
+          this.asteroids[i].pos[1] < 0 - (this.height * 2)) {
         exclusionArr.push(i);
       }
     }
@@ -121,11 +127,17 @@
     this.cursor.draw(ctx);
   };
 
-  Game.prototype.calculateGravity = function (object) {
-    var gravVec = Asteroids.Util.connectingVector(object.pos, this.planet.pos);
-    var distance = Asteroids.Util.distance(object.pos, this.planet.pos);
-    gravVec[0] *= 3 * ( 1 / (distance * distance));
-    gravVec[1] *= 3 * ( 1 / (distance * distance));
+  Game.prototype.calculateGravity = function (object, otherObject) {
+    // debugger;
+    var gravVec = Asteroids.Util.connectingVector(object.pos, otherObject.pos);
+    var distance = Asteroids.Util.distance(object.pos, otherObject.pos);
+
+    var objectMass      = (4 / 3) * Math.PI * Math.pow(object.radius, 3);
+    var otherObjectMass = (4 / 3) * Math.PI * Math.pow(otherObject.radius, 3);
+
+    var pull = .000001 * ( (otherObjectMass) / (distance * distance));
+    gravVec[0] *= pull;
+    gravVec[1] *= pull;
     object.receivePull(gravVec)
   };
 

@@ -24,11 +24,22 @@
     this.pos[1] += Cursor.STEP_VECTORS[dir][1];
   };
 
+  Cursor.prototype.resizeObject = function (change) {
+    if (change === "sizeUp") {
+      this.game.objectSize += .5;
+    } else {
+      this.game.objectSize -= .5;
+    }
+  }
+
   Cursor.prototype.bindKeys = function () {
     key('w', function(){ this.move("up"   ) }.bind(this));
     key('a', function(){ this.move("left" ) }.bind(this));
     key('s', function(){ this.move("down" ) }.bind(this));
     key('d', function(){ this.move("right") }.bind(this));
+
+    key(']', function(){ this.resizeObject("sizeUp")   }.bind(this));
+    key('[', function(){ this.resizeObject("sizeDown") }.bind(this));
 
     key('enter', this.game.createObject.bind(this.game));
   };
