@@ -63,7 +63,6 @@
     }
   };
 
-  // UNFINISHED, UNINTEGRATED
   Game.prototype.checkCollisions = function () {
     var dyingObjectArr = [];
     for (var i = 0; i < this.asteroids.length; i++) {
@@ -93,6 +92,7 @@
     this.separateObjects(exclusionArr);
   };
 
+  // Helper method used for deleting orphaned and post-collision objects.
   Game.prototype.separateObjects = function (exclusionArr) {
     var remainingObjects = [];
     var otherObjects = [];
@@ -133,5 +133,16 @@
     gravVec[1] *= .001 - (distance * .000001);
     object.receivePull(gravVec)
   };
+
+  Game.prototype.getScoreInfo = function () {
+    var info = [];
+    for (var i = 0; i < this.asteroids.length; i++) {
+      info = info.concat({
+        id: i,
+        rotations: this.asteroids[i].rotations
+      });
+    }
+    return info;
+  }
 
 })();

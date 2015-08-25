@@ -10,6 +10,10 @@
     this.color = options.color || MovingObject.COLOR;
     this.radius = options.radius || MovingObject.RADIUS;
     this.pullVectors = [];
+
+    this.rotations = 0;
+    this.startingQuadrant = this.currentQuadrant();
+    this.leftStartingQuadrant = false;
   };
 
   MovingObject.RADIUS = 20;
@@ -17,8 +21,9 @@
 
   MovingObject.prototype.move = function () {
     this.applyPullVectors();
-    this.pos[0] += this.vel[0],
-    this.pos[1] += this.vel[1]
+    this.pos[0] += this.vel[0];
+    this.pos[1] += this.vel[1];
+    this.incrementRotations();
   };
 
   MovingObject.prototype.draw = function (ctx) {
@@ -50,6 +55,34 @@
   MovingObject.prototype.isCollidedWith = function (otherObject) {
     var distance = Asteroids.Util.distance(this.pos, otherObject.pos);
     return distance < this.radius + otherObject.radius;
+  };
+
+  MovingObject.prototype.currentQuadrant = function () {
+    if (this.pos[0] < 375) {
+      if (this.pos[1] < 375) {
+        return 2;
+      } else {
+        return 3;
+      }
+    } else {
+      if (this.pos[1] < 375) {
+        return 1;
+      } else {
+        return 4;
+      }
+    }
+  };
+
+  MovingObject.prototype.incrementRotations = function () {
+    if (
+      this.currentQuadrant() === this.startingQuadrant &&
+      this.leftStartingQuadrant
+    ) {
+      this.rotations += 1;
+      this.leftStartingQuadrant = false;
+    } else if (this.currentQuadrant() !== this.startingQuadrant) {
+      this.leftStartingQuadrant = true;
+    }
   };
 
 })();
