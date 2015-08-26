@@ -165,7 +165,7 @@
 
   Game.prototype.exportPlanetInfo = function () {
     this.planets.forEach( function (planet) {
-      console.log("" + planet.pos + "," + planet.radius + "\n");
+      console.log("{ pos: [" + planet.pos + "] , radius:" + planet.radius + ", image: IMAGES['" + planet.image.id + "']},\n");
     });
   };
 

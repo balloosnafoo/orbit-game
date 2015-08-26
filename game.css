@@ -1,3 +1,13 @@
+html, body, canvas {
+  padding: 0px;
+  margin: 0px;
+}
+
+#scoreboard {
+  float: left;
+  clear: both;
+  position: absolute;
+}
 
 body {
   width: 100%;
