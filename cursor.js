@@ -26,9 +26,9 @@
 
   Cursor.prototype.resizeObject = function (change) {
     if (change === "sizeUp") {
-      this.game.objectSize += .5;
+      this.game.objectSize += 1;
     } else {
-      this.game.objectSize -= .5;
+      this.game.objectSize -= 1;
     }
   }
 
@@ -42,6 +42,7 @@
     key('[', function(){ this.resizeObject("sizeDown") }.bind(this));
 
     key('enter', this.game.createObject.bind(this.game));
+    key('p',     this.game.createPlanet.bind(this.game));
   };
 
   Cursor.prototype.draw = function (ctx) {

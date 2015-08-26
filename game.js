@@ -10,10 +10,12 @@
     this.height = options.height;
     this.images = options.images;
     this.objectSize = 10;
-    this.planet = new Asteroids.Planet({
-      pos: [Math.floor(this.width / 2), Math.floor(this.height / 2)],
-      image: this.images.earth
-    });
+    this.planets = [
+      new Asteroids.Planet({
+        pos: [Math.floor(this.width / 2), Math.floor(this.height / 2)],
+        image: this.images.earth
+      })
+    ];
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
     this.dyingObjects = [];
@@ -46,10 +48,18 @@
     }
   };
 
+  Game.prototype.createPlanet = function () {
+    this.planets.push(
+      new Asteroids.Planet({
+        pos: [this.cursor.pos[0], this.cursor.pos[1]],
+        radius: this.objectSize * 2,
+        image: this.images.earth
+      })
+    )
+  }
+
   Game.prototype.allObjects = function () {
-    return this.asteroids.concat(
-      [this.planet]
-    );
+    return this.asteroids.concat( this.planets );
   };
 
   Game.prototype.moveObjects = function () {
