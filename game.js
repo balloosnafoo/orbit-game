@@ -11,10 +11,10 @@
     this.images = options.images;
     this.objectSize = 10;
     this.planets = [
-      new Asteroids.Planet({
-        pos: [Math.floor(this.width / 2), Math.floor(this.height / 2)],
-        image: this.images.earth
-      })
+      // new Asteroids.Planet({
+      //   pos: [Math.floor(this.width / 2), Math.floor(this.height / 2)],
+      //   image: this.images.earth
+      // })
     ];
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
@@ -34,8 +34,8 @@
         this.cursor.pos
       );
 
-      velocity[0] *= .1;
-      velocity[1] *= .1;
+      velocity[0] *= .025;
+      velocity[1] *= .025;
 
       var newAsteroid = new Asteroids.Asteroid({
         pos: this.createPos,
@@ -48,12 +48,13 @@
     }
   };
 
-  Game.prototype.createPlanet = function () {
+  Game.prototype.createPlanet = function (planetType, antigravity) {
     this.planets.push(
       new Asteroids.Planet({
         pos: [this.cursor.pos[0], this.cursor.pos[1]],
         radius: this.objectSize * 2,
-        image: this.images.earth
+        image: this.images[planetType],
+        antigravity: antigravity
       })
     )
   }
@@ -138,7 +139,6 @@
   };
 
   Game.prototype.calculateGravity = function (object, otherObject) {
-    // debugger;
     var gravVec = Asteroids.Util.connectingVector(object.pos, otherObject.pos);
     var distance = Asteroids.Util.distance(object.pos, otherObject.pos);
 
@@ -146,6 +146,7 @@
     var otherObjectMass = (4 / 3) * Math.PI * Math.pow(otherObject.radius, 3);
 
     var pull = .000001 * ( (otherObjectMass) / (distance * distance));
+    if (otherObject.antigravity) { pull *= -1; }
     gravVec[0] *= pull;
     gravVec[1] *= pull;
     object.receivePull(gravVec)
@@ -160,6 +161,12 @@
       });
     }
     return info;
-  }
+  };
+
+  Game.prototype.exportPlanetInfo = function () {
+    this.planets.forEach( function (planet) {
+      console.log("" + planet.pos + "," + planet.radius + "\n");
+    });
+  };
 
 })();

@@ -6,7 +6,8 @@
   var Planet = Asteroids.Planet = function (options) {
     options.color = options.color || "green";
     options.vel = [0, 0];
-    options.radius = 70;
+    options.radius = options.radius || 70;
+    options.antigravity = options.antigravity ? true : false;
     Asteroids.MovingObject.call(this, options);
   }
 

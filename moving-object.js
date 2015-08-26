@@ -11,6 +11,7 @@
     this.image = options.image;
     this.radius = options.radius || MovingObject.RADIUS;
     this.pullVectors = [];
+    this.antigravity = options.antigravity || false
 
     this.rotations = 0;
     this.startingQuadrant = this.currentQuadrant();

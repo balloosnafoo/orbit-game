@@ -36,16 +36,23 @@
     <div style="display:none;">
       <img id="source-earth" src="http://i.imgur.com/otF17Fi.png">
       <img id="source-moon" src="http://i.imgur.com/9L66AZe.png">
+      <img id="source-green" src="http://i.imgur.com/Ko5HDJQ.png">
+      <img id="source-red" src="http://i.imgur.com/JojoWco.png">
+      <img id="source-purple" src="http://i.imgur.com/Y55SEy7.png">
+
     </div>
 
     <script type="application/javascript">
       // (function () {
         var canvasEl = document.getElementById("game-canvas");
         var images = {
-          earth: document.getElementById('source-earth'),
-          moon: document.getElementById('source-moon')
+          earth:  document.getElementById('source-earth'),
+          moon:   document.getElementById('source-moon'),
+          green:  document.getElementById('source-green'),
+          red:    document.getElementById('source-red'),
+          purple: document.getElementById('source-purple')
         }
-        var $scoreboardEl = $("#scoreboard")
+        var $scoreboardEl = $("#scoreboard");
         // debugger;
         // canvasEl.width = Asteroids.Game.DIM_X;
         // canvasEl.height = Asteroids.Game.DIM_Y;

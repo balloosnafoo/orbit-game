@@ -10,6 +10,7 @@
     ];
     this.game = options.game;
     this.bindKeys();
+    this.stepSpeed = 1;
   };
 
   Cursor.STEP_VECTORS = {
@@ -20,8 +21,8 @@
   }
 
   Cursor.prototype.move = function (dir) {
-    this.pos[0] += Cursor.STEP_VECTORS[dir][0];
-    this.pos[1] += Cursor.STEP_VECTORS[dir][1];
+    this.pos[0] += Cursor.STEP_VECTORS[dir][0] * this.stepSpeed;
+    this.pos[1] += Cursor.STEP_VECTORS[dir][1] * this.stepSpeed;
   };
 
   Cursor.prototype.resizeObject = function (change) {
@@ -30,19 +31,38 @@
     } else {
       this.game.objectSize -= 1;
     }
+  };
+
+  Cursor.prototype.shiftSpeed = function (dir) {
+    if ( dir === "up" ) {
+      this.stepSpeed += 1;
+    } else {
+      this.stepSpeed -= 1;
+    }
   }
 
   Cursor.prototype.bindKeys = function () {
+    // Cursor movement keys
     key('w', function(){ this.move("up"   ) }.bind(this));
     key('a', function(){ this.move("left" ) }.bind(this));
     key('s', function(){ this.move("down" ) }.bind(this));
     key('d', function(){ this.move("right") }.bind(this));
+    key('c', function(){ this.shiftSpeed("up")   }.bind(this));
+    key('v', function(){ this.shiftSpeed("down") }.bind(this));
 
+    // Enlarge and shrink objects
     key(']', function(){ this.resizeObject("sizeUp")   }.bind(this));
     key('[', function(){ this.resizeObject("sizeDown") }.bind(this));
 
+    // Moon and Planet creation keys
     key('enter', this.game.createObject.bind(this.game));
-    key('p',     this.game.createPlanet.bind(this.game));
+    key('p',     this.game.createPlanet.bind(this.game, "earth", false));
+    key('o',     this.game.createPlanet.bind(this.game, "green", false));
+    key('i',     this.game.createPlanet.bind(this.game, "red", false));
+    key('u',     this.game.createPlanet.bind(this.game, "purple", true));
+
+    // Export key, used for level creation
+    key('/',     this.game.exportPlanetInfo.bind(this.game));
   };
 
   Cursor.prototype.draw = function (ctx) {
