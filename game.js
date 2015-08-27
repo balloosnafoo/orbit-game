@@ -30,6 +30,14 @@
 
   Game.prototype.createObject = function () {
     if (!this.createPos) {
+      if (this.startingZone) {
+        if (
+          this.cursor.pos[0] < this.startingZone.topLeft[0] ||
+          this.cursor.pos[0] > this.startingZone.bottomRight[0] ||
+          this.cursor.pos[1] < this.startingZone.topLeft[1] ||
+          this.cursor.pos[1] > this.startingZone.bottomRight[1]
+        ) { return; }
+      }
       this.createPos = this.cursor.pos.slice();
     } else {
       var velocity = Asteroids.Util.connectingVector(
@@ -92,6 +100,10 @@
       for (var j = 0; j < this.allObjects().length; j++) {
         if (i === j) continue;
         if (this.asteroids[i].isCollidedWith(this.allObjects()[j])) {
+          if (this.allObjects()[j].image.id === "green"){
+            this.removeAll();
+            this.levelGenerator.nextLevel();
+          }
           dyingObjectArr.push(i);
         }
       }
@@ -138,14 +150,22 @@
   };
 
   Game.prototype.draw = function (ctx) {
+    // Draws the background
     ctx.clearRect(0, 0, this.width, this.height);
     ctx.fillStyle = Game.BG_COLOR;
     ctx.fillRect(0, 0, this.width, this.height);
 
+    // Draws the starting zone
+    if (this.startingZone) {
+      this.startingZone.draw(ctx);
+    }
+
+    // Draws the planets and moons
     this.allObjects().forEach(function (object) {
       object.draw(ctx);
     });
 
+    // Draws the cursor
     this.cursor.draw(ctx);
   };
 
@@ -174,13 +194,21 @@
     return info;
   };
 
+  Game.prototype.zoneFromOptions = function (options) {
+    this.startingZone = new Asteroids.StartingZone({
+      topLeft: options.topLeft,
+      bottomRight: options.bottomRight
+    });
+  };
+
   Game.prototype.exportPlanetInfo = function () {
     this.planets.forEach( function (planet) {
-      console.log("{ pos: [" + planet.pos + "] , radius:" + planet.radius + ", image: IMAGES['" + planet.image.id + "']},\n");
+      console.log("{objectType: planet, pos: [" + planet.pos + "] , radius:" + planet.radius + ", planetType: '" + planet.image.id + "'},\n");
     });
   };
 
   Game.prototype.removeAll = function () {
+    this.startingZone = false;
     this.asteroids = [];
     this.planets = [];
   }

@@ -12,6 +12,7 @@
     <script type="text/javascript" src="./asteroid.js"></script>
     <script type="text/javascript" src="./cursor.js"></script>
     <script type="text/javascript" src="./planet.js"></script>
+    <script type="text/javascript" src="./starting-zone.js"></script>
     <script type="text/javascript" src="./level-generator.js"></script>
     <script type="text/javascript" src="./game.js"></script>
     <script type="text/javascript" src="./game-view.js"></script>
@@ -23,7 +24,7 @@
     <!-- <h1>ORBIT GAME</h1> -->
     <h1 class="title">Orbit Game</h1>
 
-    <div class="menu-button">
+    <div class="menu-button button">
       Menu
     </div>
 
@@ -80,7 +81,9 @@
           $('body').append(modal);
 
           $('.earth-button').click(function () {
+            game.removeAll();
             removeModal();
+            game.levelGenerator.generateLevel("initial");
           });
 
           $('.sandbox-button').click(function () {
@@ -145,6 +148,17 @@
             Levels
           </div>
         </div>
+      </div>
+    </script>
+
+    <script id="win-modal" type="text/template">
+      <div class="m-background"></div>
+
+      <div class="m-content">
+        <h1>You Win!</h1>
+        <p>
+          Thank you for playing!
+        </p>
       </div>
     </script>
   </body>

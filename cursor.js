@@ -62,6 +62,7 @@
       key('o', function() { this.game.createPlanet({planetType: "green",  antigravity: false}) }.bind(this));
       key('i', function() { this.game.createPlanet({planetType: "red",    antigravity: false}) }.bind(this));
       key('u', function() { this.game.createPlanet({planetType: "purple", antigravity: true }) }.bind(this));
+      key('k', function() { this.game.removeAll() }.bind(this));
 
       // Export key, used for level creation
       key('/',     this.game.exportPlanetInfo.bind(this.game));
