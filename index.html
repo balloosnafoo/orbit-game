@@ -12,6 +12,7 @@
     <script type="text/javascript" src="./asteroid.js"></script>
     <script type="text/javascript" src="./cursor.js"></script>
     <script type="text/javascript" src="./planet.js"></script>
+    <script type="text/javascript" src="./level-generator.js"></script>
     <script type="text/javascript" src="./game.js"></script>
     <script type="text/javascript" src="./game-view.js"></script>
 
@@ -20,6 +21,7 @@
   </head>
   <body>
     <!-- <h1>ORBIT GAME</h1> -->
+    <h1 class="title">Orbit Game</h1>
     <canvas id="game-canvas"></canvas>
     <div style="display:none;">
       <img id="earth" src="http://i.imgur.com/otF17Fi.png">
@@ -27,11 +29,6 @@
       <img id="green" src="http://i.imgur.com/Ko5HDJQ.png">
       <img id="red" src="http://i.imgur.com/JojoWco.png">
       <img id="purple" src="http://i.imgur.com/Y55SEy7.png">
-    </div>
-
-    <div class="m-background"></div>
-
-    <div class="m-content">
     </div>
 
     <script type="application/javascript">
@@ -44,8 +41,8 @@
         purple: document.getElementById('purple')
       }
 
-      canvasEl.width = window.innerWidth;
-      canvasEl.height = window.innerHeight;
+      canvasEl.width = 1700;
+      canvasEl.height = 900;
 
       var ctx = canvasEl.getContext("2d");
       var game = new Asteroids.Game({
@@ -59,6 +56,51 @@
         ctx: ctx,
         images: images
       }).start();
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var modal = $('#instructions-template').html();
+        $('body').append(modal);
+
+        $('.m-background').click(function () {
+          $('.m-background').remove();
+          $('.m-content').remove();
+        });
+      });
+    </script>
+
+    <script id="instructions-template" type="text/x-custom-template">
+      <div class="m-background"></div>
+
+      <div class="m-content">
+        <h1>Welcome to Orbit Game!</h1>
+        <p>
+          In this game you may create moons that are drawn to each other and to
+          the planets on the map.
+        </p>
+        <h4>Controls:</h4>
+        <ul>
+          <li>Move cursor: 'wasd'</li>
+          <li>increase/decrease cursor speed: 'c', 'v'</li>
+          <li>Shrink/Enlargen object: '[', ']'</li>
+          <li>In sandbox mode: </li>
+          <ul>
+            <li>Make an Earth: 'p'</li>
+            <li>Make green/red planets: 'o', 'i'</li>
+            <li>Make antigravity planets: 'u'</li>
+          </ul>
+        </ul>
+
+        <p>
+          Moons are made in three steps:
+          <ul>
+            <li>First: choose the origin of the moon and press 'enter'</li>
+            <li>Second: move the cursor in the direction you want your moon to move</li>
+            <li>Third: Press enter again. The distance between the two points determines the speed</li>
+          </ul>
+        </p>
+      </div>
     </script>
   </body>
 </html>

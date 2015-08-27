@@ -9,9 +9,9 @@
       Math.floor(options.game.height * .75)
     ];
     this.game = options.game;
+    this.editing = true;
     this.bindKeys();
     this.stepSpeed = 1;
-    this.editing = true;
   };
 
   Cursor.STEP_VECTORS = {
@@ -58,10 +58,10 @@
 
       // Moon and Planet creation keys
       key('enter', this.game.createObject.bind(this.game));
-      key('p',     this.game.createPlanet.bind(this.game, "earth", false));
-      key('o',     this.game.createPlanet.bind(this.game, "green", false));
-      key('i',     this.game.createPlanet.bind(this.game, "red", false));
-      key('u',     this.game.createPlanet.bind(this.game, "purple", true));
+      key('p',     this.game.createPlanet.bind(this.game, {planetType: "earth",  antigravity: false}));
+      key('o',     this.game.createPlanet.bind(this.game, {planetType: "green",  antigravity: false}));
+      key('i',     this.game.createPlanet.bind(this.game, {planetType: "red",    antigravity: false}));
+      key('u',     this.game.createPlanet.bind(this.game, {planetType: "purple", antigravity: true}));
 
       // Export key, used for level creation
       key('/',     this.game.exportPlanetInfo.bind(this.game));

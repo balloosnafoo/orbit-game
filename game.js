@@ -19,6 +19,9 @@
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
     this.dyingObjects = [];
+
+    this.levelGenerator = new Asteroids.LevelGenerator({game: this});
+    this.levelGenerator.generateLevel("initial");
   }
 
   // Game.DIM_X = 750;
@@ -48,13 +51,21 @@
     }
   };
 
-  Game.prototype.createPlanet = function (planetType, antigravity) {
+  Game.prototype.objectFromOptions = function (options) {
+    options.image = this.images.moon;
+    this.asteroids.push(new Asteroids.Asteroid(options));
+  };
+
+  Game.prototype.createPlanet = function (options) {
+    options.pos = options.pos || [this.cursor.pos[0], this.cursor.pos[1]];
+    options.radius = options.radius || this.objectSize * 2;
+    options.antigravity = options.antigravity || false;
     this.planets.push(
       new Asteroids.Planet({
-        pos: [this.cursor.pos[0], this.cursor.pos[1]],
-        radius: this.objectSize * 2,
-        image: this.images[planetType],
-        antigravity: antigravity
+        pos: options.pos,
+        radius: options.radius,
+        image: this.images[options.planetType],
+        antigravity: options.antigravity
       })
     )
   }
