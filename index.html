@@ -76,6 +76,19 @@
           $('.m-content').remove();
         }
 
+        var newModal = function (elementId) {
+          var modal = $(elementId).html();
+          $('body').append(modal);
+
+          $('.m-background').click(function () {
+            removeModal();
+          });
+
+          $('.play-button').click(function () {
+            removeModal();
+          });
+        }
+
         var placeModal = function () {
           var modal = $('#instructions-template').html();
           $('body').append(modal);
@@ -91,6 +104,7 @@
             removeModal();
             game.removeAll();
             game.sandbox = true;
+            newModal('#sandbox-modal');
           });
 
           $('.level-button').click(function () {
@@ -98,6 +112,7 @@
             removeModal();
             game.levelGenerator.generateLevel("level1");
             game.sandbox = false;
+            newModal('#level-modal');
           });
 
           $('.m-background').click(function () {
@@ -109,6 +124,7 @@
       });
     </script>
 
+    <!-- Instructions Modal Template -->
     <script id="instructions-template" type="text/template">
       <div class="m-background"></div>
 
@@ -122,13 +138,7 @@
         <ul>
           <li>Move cursor: 'wasd'</li>
           <li>increase/decrease cursor speed: 'c', 'v'</li>
-          <li>Shrink/Enlargen object: '[', ']'</li>
-          <li>In sandbox mode: </li>
-          <ul>
-            <li>Make an Earth: 'p'</li>
-            <li>Make green/red planets: 'o', 'i'</li>
-            <li>Make antigravity planets: 'u'</li>
-          </ul>
+          <li>Shrink/Enlargen created objects: '[', ']'</li>
         </ul>
 
         <p>
@@ -154,6 +164,7 @@
       </div>
     </script>
 
+    <!-- Win Modal Template -->
     <script id="win-modal" type="text/template">
       <div class="m-background"></div>
 
@@ -162,6 +173,50 @@
         <p>
           Thank you for playing!
         </p>
+      </div>
+    </script>
+
+    <script id="level-modal" type="text/template">
+      <div class="m-background"></div>
+
+      <div class="m-content">
+        <h1>Level Mode</h1>
+
+        <p>
+          Goal: Hit the green planets. Your moons must be generated within the
+          green starting zone.
+        </p>
+
+        <p>
+          Avoid the red and purple planets. Red planets have normal gravity,
+          and purple planets have antigravity fields.
+        </p>
+        <div class="button play-button">
+          Play
+        </div>
+      </div>
+    </script>
+
+    <script id="sandbox-modal" type="text/template">
+      <div class="m-background"></div>
+
+      <div class="m-content">
+        <h1>Sandbox Mode</h1>
+        <ul>
+          <li>Make an Earth: 'p'</li>
+          <li>Make green/red planets: 'o', 'i'</li>
+          <li>Make antigravity planets: 'u'</li>
+        </ul>
+
+        <p>
+          If you happen to make a level that you like and want it added, hit
+          the '/' keym open up the console, copy the logs, and send it
+          to skinnerm@email.arizona.edu
+        </p>
+
+        <div class="button play-button">
+          Play!
+        </div>
       </div>
     </script>
   </body>
