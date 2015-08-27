@@ -5,17 +5,12 @@
 
   var Game = Asteroids.Game = function (options) {
     this.images = options.images;
-    this.asteroids = []; // this.addAsteroids();
     this.width = options.width;
     this.height = options.height;
     this.images = options.images;
-    this.objectSize = 10;
-    this.planets = [
-      // new Asteroids.Planet({
-      //   pos: [Math.floor(this.width / 2), Math.floor(this.height / 2)],
-      //   image: this.images.earth
-      // })
-    ];
+    this.objectSize = 30;
+    this.asteroids = []; // this.addAsteroids();
+    this.planets = [];
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
     this.dyingObjects = [];
@@ -65,6 +60,9 @@
   };
 
   Game.prototype.createPlanet = function (options) {
+    // Reject any planets made in game or earth mode
+    if (!this.sandbox) { return; }
+
     options.pos = options.pos || [this.cursor.pos[0], this.cursor.pos[1]];
     options.radius = options.radius || this.objectSize * 2;
     options.antigravity = options.antigravity || false;
@@ -75,8 +73,19 @@
         image: this.images[options.planetType],
         antigravity: options.antigravity
       })
-    )
-  }
+    );
+  };
+
+  Game.prototype.planetFromOptions = function (options) {
+    this.planets.push(
+      new Asteroids.Planet({
+        pos: options.pos,
+        radius: options.radius,
+        image: this.images[options.planetType],
+        antigravity: options.antigravity
+      })
+    );
+  };
 
   Game.prototype.allObjects = function () {
     return this.asteroids.concat( this.planets );
@@ -100,7 +109,7 @@
       for (var j = 0; j < this.allObjects().length; j++) {
         if (i === j) continue;
         if (this.asteroids[i].isCollidedWith(this.allObjects()[j])) {
-          if (this.allObjects()[j].image.id === "green"){
+          if (this.allObjects()[j].image.id === "green" && !this.sandbox){
             this.removeAll();
             this.levelGenerator.nextLevel();
           }

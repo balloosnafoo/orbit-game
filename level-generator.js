@@ -26,12 +26,27 @@
       {objectType: "planet", pos: [860,465] , radius:156, planetType: 'red'},
       {objectType: "planet", pos: [1420,465] , radius:118, planetType: 'green'},
       {objectType: "zone", topLeft: [0, 0], bottomRight: [300, 900], zoneType: 'starting'}
+    ],
+
+    level3: [
+      {objectType: "planet", pos: [150,835] , radius:84, planetType: 'purple'},
+      {objectType: "planet", pos: [150,595] , radius:84, planetType: 'purple'},
+      {objectType: "planet", pos: [150,355] , radius:84, planetType: 'purple'},
+      {objectType: "planet", pos: [150,115] , radius:84, planetType: 'purple'},
+      {objectType: "planet", pos: [710,475] , radius:84, planetType: 'red'},
+      {objectType: "planet", pos: [920,475] , radius:84, planetType: 'red'},
+      {objectType: "planet", pos: [1130,475] , radius:84, planetType: 'red'},
+      {objectType: "planet", pos: [1340,475] , radius:84, planetType: 'red'},
+      {objectType: "planet", pos: [1550,475] , radius:84, planetType: 'red'},
+      {objectType: "planet", pos: [1550,265] , radius:84, planetType: 'green'},
+      {objectType: "zone", topLeft: [1300, 560], bottomRight: [1700, 900], zoneType: 'starting'}
     ]
   };
 
   LevelGenerator.NEXT_LEVELS = {
     level1: "level2",
-    level2: "end"
+    level2: "level3",
+    level3: "end"
   };
 
   LevelGenerator.prototype.generateLevel = function (levelName) {
@@ -43,7 +58,7 @@
       if (object.objectType === "asteroid") {
         this.game.objectFromOptions(object);
       } else if (object.objectType === "planet") {
-        this.game.createPlanet(object);
+        this.game.planetFromOptions(object);
       } else if (object.objectType === "zone") {
         this.game.zoneFromOptions(object);
       }

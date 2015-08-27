@@ -84,17 +84,20 @@
             game.removeAll();
             removeModal();
             game.levelGenerator.generateLevel("initial");
+            game.sandbox = false;
           });
 
           $('.sandbox-button').click(function () {
             removeModal();
             game.removeAll();
+            game.sandbox = true;
           });
 
           $('.level-button').click(function () {
             game.removeAll();
             removeModal();
             game.levelGenerator.generateLevel("level1");
+            game.sandbox = false;
           });
 
           $('.m-background').click(function () {
