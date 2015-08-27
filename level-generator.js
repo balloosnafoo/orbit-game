@@ -11,6 +11,14 @@
     "initial": [
       {objectType: "asteroid", pos: [870, 840], vel: [4, 0], image: "moon"},
       {objectType: "planet", pos: [850,465] , radius:154, planetType: 'earth'}
+    ],
+
+    "level1": [
+      {objectType: "planet", pos: [850,755], radius:92, planetType: 'red'},
+      {objectType: "planet", pos: [850,135], radius:92, planetType: 'red'},
+      {objectType: "planet", pos: [1040,285], radius:92, planetType: 'red'},
+      {objectType: "planet", pos: [1040,600], radius:92, planetType: 'red'},
+      {objectType: "planet", pos: [1330,655], radius:92, planetType: 'green'}
     ]
   }
 

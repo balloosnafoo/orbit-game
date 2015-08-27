@@ -58,10 +58,10 @@
 
       // Moon and Planet creation keys
       key('enter', this.game.createObject.bind(this.game));
-      key('p',     this.game.createPlanet.bind(this.game, {planetType: "earth",  antigravity: false}));
-      key('o',     this.game.createPlanet.bind(this.game, {planetType: "green",  antigravity: false}));
-      key('i',     this.game.createPlanet.bind(this.game, {planetType: "red",    antigravity: false}));
-      key('u',     this.game.createPlanet.bind(this.game, {planetType: "purple", antigravity: true}));
+      key('p', function() { this.game.createPlanet({planetType: "earth",  antigravity: false}) }.bind(this));
+      key('o', function() { this.game.createPlanet({planetType: "green",  antigravity: false}) }.bind(this));
+      key('i', function() { this.game.createPlanet({planetType: "red",    antigravity: false}) }.bind(this));
+      key('u', function() { this.game.createPlanet({planetType: "purple", antigravity: true }) }.bind(this));
 
       // Export key, used for level creation
       key('/',     this.game.exportPlanetInfo.bind(this.game));

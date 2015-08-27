@@ -66,6 +66,10 @@
 
     <script type="text/javascript">
       $(document).ready(function () {
+        $('.menu-button').click(function () {
+          placeModal();
+        });
+
         var removeModal = function () {
           $('.m-background').remove();
           $('.m-content').remove();
@@ -77,12 +81,18 @@
 
           $('.earth-button').click(function () {
             removeModal();
-          })
+          });
 
           $('.sandbox-button').click(function () {
             removeModal();
             game.removeAll();
-          })
+          });
+
+          $('.level-button').click(function () {
+            game.removeAll();
+            removeModal();
+            game.levelGenerator.generateLevel("level1");
+          });
 
           $('.m-background').click(function () {
             removeModal();
