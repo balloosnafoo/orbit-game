@@ -11,6 +11,7 @@
     this.objectSize = 30;
     this.asteroids = []; // this.addAsteroids();
     this.planets = [];
+    this.particles = [];
     this.cursor = new Asteroids.Cursor({game: this});
     this.createPos = null;
     this.dyingObjects = [];
@@ -59,6 +60,29 @@
     this.asteroids.push(new Asteroids.Asteroid(options));
   };
 
+  Game.prototype.objectFromClick = function (pos) {
+    var velocity = Asteroids.Util.connectingVector(
+      this.clickOrigin,
+      pos
+    );
+
+    velocity[0] *= .025;
+    velocity[1] *= .025;
+
+    var newAsteroid = new Asteroids.Asteroid({
+      pos: this.clickOrigin,
+      vel: velocity,
+      image: this.images.moon,
+      radius: this.objectSize
+    });
+
+    this.asteroids.push(newAsteroid);
+  };
+
+  Game.prototype.setObjectOrigin = function (pos) {
+    this.clickOrigin = pos;
+  }
+
   Game.prototype.createPlanet = function (options) {
     // Reject any planets made in game or earth mode
     if (!this.sandbox) { return; }
@@ -101,23 +125,34 @@
       }
       objects[i].move();
     }
+
+    for (var i = 0; i < this.particles.length; i++) {
+      this.particles[i].move();
+    }
   };
 
   Game.prototype.checkCollisions = function () {
     var dyingObjectArr = [];
+    var beatLevel = false;
     for (var i = 0; i < this.asteroids.length; i++) {
       for (var j = 0; j < this.allObjects().length; j++) {
         if (i === j) continue;
         if (this.asteroids[i].isCollidedWith(this.allObjects()[j])) {
           if (this.allObjects()[j].image.id === "green" && !this.sandbox){
-            this.removeAll();
-            this.levelGenerator.nextLevel();
+            beatLevel = true;
           }
           dyingObjectArr.push(i);
+          this.createExplosion(this.asteroids[i]);
         }
       }
     }
     this.dyingObjects = this.separateObjects(dyingObjectArr);
+    if (beatLevel) { this.nextLevel(); }
+  };
+
+  Game.prototype.nextLevel = function () {
+    this.removeAll();
+    this.levelGenerator.nextLevel();
   };
 
   // Finds all lost asteroids, makes new array excluding those and updates
@@ -174,6 +209,8 @@
       object.draw(ctx);
     });
 
+    this.particles.forEach(function (object) { object.draw (ctx); });
+
     // Draws the cursor
     this.cursor.draw(ctx);
   };
@@ -220,6 +257,47 @@
     this.startingZone = false;
     this.asteroids = [];
     this.planets = [];
-  }
+  };
+
+  // Game.prototype.createExplosion = function (x, y, color, object1, object2) {
+  Game.prototype.createExplosion = function (object) {
+    var minSize = 10;
+    var maxSize = object.radius;
+    var count = 10;
+    var minSpeed = 1.0;
+    var maxSpeed = 5.0;
+    var minScaleSpeed = .01;
+    var maxScaleSpeed = .05;
+
+    for (var angle=0; angle<360; angle += Math.round(360/count)) {
+      var radius = Asteroids.Util.randomFloat(minSize, maxSize);
+      var speed = Asteroids.Util.randomFloat(minSpeed, maxSpeed);
+      var velX = speed * Math.cos(angle * Math.PI / 180.0);
+      var velY = speed * Math.sin(angle * Math.PI / 180.0);
+      var color = Math.random() > .5 ? "rgb(184, 39, 19)" : "rgb(205, 116, 29)"
+
+      if (Math.random() > -1) {
+        // 70% chance of being a particle
+        var particle = new Asteroids.Particle({
+          color: color,
+          pos: [object.pos[0], object.pos[1]],
+          scaleSpeed: Asteroids.Util.randomFloat(minScaleSpeed, maxScaleSpeed),
+          vel: [velX, velY],
+          radius: radius
+        });
+
+        this.particles.push(particle);
+      } else {
+        // 30% chance it makes a new, smaller asteroid
+        var asteroid = new Asteroids.Asteroid({
+          pos: object.pos,
+          vel: [velX, velY],
+          image: this.images.moon
+        });
+
+        this.asteroids.push(asteroid);
+      }
+    }
+  };
 
 })();

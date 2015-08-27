@@ -12,6 +12,7 @@
     <script type="text/javascript" src="./asteroid.js"></script>
     <script type="text/javascript" src="./cursor.js"></script>
     <script type="text/javascript" src="./planet.js"></script>
+    <script type="text/javascript" src="./particle.js"></script>
     <script type="text/javascript" src="./starting-zone.js"></script>
     <script type="text/javascript" src="./level-generator.js"></script>
     <script type="text/javascript" src="./game.js"></script>
@@ -121,6 +122,43 @@
         }
 
         placeModal();
+      });
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var init = function () {
+          var canvas = document.getElementById("game-canvas");
+          canvas.addEventListener("mousedown", getPosition, false);
+          canvas.addEventListener("mouseup", getPosition, false);
+        }
+
+        var getPosition = function (event) {
+          var x = new Number();
+          var y = new Number();
+          var canvas = document.getElementById("game-canvas");
+
+          if (event.x != undefined && event.y != undefined) {
+            x = event.x;
+            y = event.y;
+          } else {
+            x = event.clientX + document.body.scrollLeft +
+                document.documentElement.scrollLeft;
+            y = event.clientY + document.body.scrollTop +
+                document.documentElement.scrollTop;
+          }
+
+          x -= canvas.offsetLeft;
+          y -= canvas.offsetTop;
+
+          if (event.type === "mousedown") {
+            game.setObjectOrigin([x, y]);
+          } else {
+            game.objectFromClick([x, y])
+          }
+        }
+
+        init();
       });
     </script>
 
