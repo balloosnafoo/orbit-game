@@ -22,7 +22,13 @@
   <body>
     <!-- <h1>ORBIT GAME</h1> -->
     <h1 class="title">Orbit Game</h1>
+
+    <div class="menu-button">
+      Menu
+    </div>
+
     <canvas id="game-canvas"></canvas>
+
     <div style="display:none;">
       <img id="earth" src="http://i.imgur.com/otF17Fi.png">
       <img id="moon" src="http://i.imgur.com/9L66AZe.png">
@@ -60,17 +66,34 @@
 
     <script type="text/javascript">
       $(document).ready(function () {
-        var modal = $('#instructions-template').html();
-        $('body').append(modal);
-
-        $('.m-background').click(function () {
+        var removeModal = function () {
           $('.m-background').remove();
           $('.m-content').remove();
-        });
+        }
+
+        var placeModal = function () {
+          var modal = $('#instructions-template').html();
+          $('body').append(modal);
+
+          $('.earth-button').click(function () {
+            removeModal();
+          })
+
+          $('.sandbox-button').click(function () {
+            removeModal();
+            game.removeAll();
+          })
+
+          $('.m-background').click(function () {
+            removeModal();
+          });
+        }
+
+        placeModal();
       });
     </script>
 
-    <script id="instructions-template" type="text/x-custom-template">
+    <script id="instructions-template" type="text/template">
       <div class="m-background"></div>
 
       <div class="m-content">
@@ -100,6 +123,18 @@
             <li>Third: Press enter again. The distance between the two points determines the speed</li>
           </ul>
         </p>
+
+        <div class="mode-selection button-group">
+          <div class="button earth-button">
+            Earth
+          </div>
+          <div class="button sandbox-button">
+            Sandbox
+          </div>
+          <div class="button level-button">
+            Levels
+          </div>
+        </div>
       </div>
     </script>
   </body>

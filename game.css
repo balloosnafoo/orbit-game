@@ -1,6 +1,7 @@
 html, body, canvas {
   padding: 0px;
   margin: 0px;
+  font-family: sans-serif;
 }
 
 #scoreboard {
@@ -43,7 +44,34 @@ h1.title {
   left: 25%;
   width: 50%;
   background-color: white;
-  padding: 1pc;
+  padding: 3pc;
   border: 1px solid;
+  border-radius: 8px;
+}
+
+.menu-button {
+  float: left;
+  position: absolute;
+  background-color: rgb(73, 147, 50);
+  left: 10px;
+  top: 75px;
   border-radius: 5px;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.button {
+  display: inline-block;
+  margin: 2px;
+  width: 200px;
+  background: rgb(73, 147, 50);
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.button-group {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }

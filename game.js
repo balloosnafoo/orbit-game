@@ -180,4 +180,9 @@
     });
   };
 
+  Game.prototype.removeAll = function () {
+    this.asteroids = [];
+    this.planets = [];
+  }
+
 })();
