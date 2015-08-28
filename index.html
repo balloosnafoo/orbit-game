@@ -49,8 +49,11 @@
         purple: document.getElementById('purple')
       }
 
-      canvasEl.width = 1700;
-      canvasEl.height = 900;
+      // canvasEl.width = 1700;
+      // canvasEl.height = 900;
+
+      canvasEl.width = window.innerWidth - 10;
+      canvasEl.height = window.innerHeight - 75;
 
       var ctx = canvasEl.getContext("2d");
       var game = new Asteroids.Game({
