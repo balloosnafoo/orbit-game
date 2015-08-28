@@ -142,11 +142,11 @@
             beatLevel = true;
           }
           dyingObjectArr.push(i);
-          this.createExplosion(this.asteroids[i]);
+          this.createExplosion(this.asteroids[i], this.allObjects()[j]);
         }
       }
     }
-    this.dyingObjects = this.separateObjects(dyingObjectArr);
+    this.dyingObjects = this.separateObjects(dyingObjectArr, "asteroids");
     if (beatLevel) { this.nextLevel(); }
   };
 
@@ -168,21 +168,37 @@
         exclusionArr.push(i);
       }
     }
-    this.separateObjects(exclusionArr);
+    this.separateObjects(exclusionArr, "asteroids");
+  };
+
+  Game.prototype.deleteLostParticles = function () {
+    var exclusionArr = [];
+    for (var i = 0; i < this.particles.length; i++) {
+      if (this.particles[i].scale <= 0) {
+        exclusionArr.push(i)
+      }
+    }
+
+    this.separateObjects(exclusionArr, "particles");
   };
 
   // Helper method used for deleting orphaned and post-collision objects.
-  Game.prototype.separateObjects = function (exclusionArr) {
+  Game.prototype.separateObjects = function (exclusionArr, type) {
     var remainingObjects = [];
     var otherObjects = [];
-    for (var i = 0; i < this.asteroids.length; i++) {
+    var arr = type === "asteroids" ? this.asteroids : this.particles;
+    for (var i = 0; i < arr.length; i++) {
       if (exclusionArr.indexOf(i) === -1){
-        remainingObjects.push(this.asteroids[i]);
+        remainingObjects.push(arr[i]);
       } else {
-        otherObjects.push(this.asteroids[i]);
+        otherObjects.push(arr[i]);
       }
     }
-    this.asteroids = remainingObjects.slice();
+    if (type === "asteroids") {
+      this.asteroids = remainingObjects.slice();
+    } else if (type === "particles") {
+      this.particles = remainingObjects.slice();
+    }
     return otherObjects;
   };
 
@@ -260,7 +276,7 @@
   };
 
   // Game.prototype.createExplosion = function (x, y, color, object1, object2) {
-  Game.prototype.createExplosion = function (object) {
+  Game.prototype.createExplosion = function (object, otherObject) {
     var minSize = 10;
     var maxSize = object.radius;
     var count = 10;
@@ -268,6 +284,24 @@
     var maxSpeed = 5.0;
     var minScaleSpeed = .01;
     var maxScaleSpeed = .05;
+    var maybeReflectionX = object.radius > (otherObject.radius / 3) ? 1 : -.2;
+    var maybeReflectionY = object.radius > (otherObject.radius / 3) ? 1 : -.2;
+    if (Math.abs(object.vel[0]) > Math.abs(object.vel[1])) {
+      maybeReflectionX = 1;
+    } else {
+      maybeReflectionY = 1;
+    }
+    
+    var x1 = object.pos[0] + object.vel[0];
+    var y1 = object.pos[1] + object.vel[1];
+    var vectorLength = Asteroids.Util.distance(object.pos, [x1, y1]);
+    var toOtherObject = Asteroids.Util.distance(object.pos, otherObject.pos);
+    debugger
+    var angle = Math.acos(
+      (x1*otherObject.pos[0])+(y1*otherObject.pos[1]) /
+      (vectorLength * toOtherObject)
+    );
+    console.log(angle);
 
     for (var angle=0; angle<360; angle += Math.round(360/count)) {
       var radius = Asteroids.Util.randomFloat(minSize, maxSize);
@@ -282,7 +316,10 @@
           color: color,
           pos: [object.pos[0], object.pos[1]],
           scaleSpeed: Asteroids.Util.randomFloat(minScaleSpeed, maxScaleSpeed),
-          vel: [velX, velY],
+          vel: [
+            velX + (object.vel[0] * maybeReflectionX),
+            velY + (object.vel[1] * maybeReflectionY)
+          ],
           radius: radius
         });
 

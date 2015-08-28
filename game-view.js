@@ -16,6 +16,7 @@
         this.game.moveObjects();
         this.game.checkCollisions();
         this.game.deleteLostObjects();
+        this.game.deleteLostParticles();
         this.game.draw(this.ctx);
 
         // var scoreInfo = this.game.getScoreInfo();

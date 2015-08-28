@@ -49,6 +49,18 @@
       {objectType: "planet", pos: [1330,455] , radius:106, planetType: 'green'},
       {objectType: "asteroid", pos: [850, 295], radius:30, vel: [0, 0], image: "moon"},
       {objectType: "zone", topLeft: [0, 0], bottomRight: [300, 900], zoneType: 'starting'}
+    ],
+
+    level5: [
+      {objectType: "planet", pos: [290,735] , radius:60, planetType: 'red'},
+      {objectType: "planet", pos: [560,735] , radius:60, planetType: 'red'},
+      {objectType: "planet", pos: [830,735] , radius:60, planetType: 'red'},
+      {objectType: "planet", pos: [1100,735] , radius:60, planetType: 'red'},
+      {objectType: "planet", pos: [1280,555] , radius:60, planetType: 'red'},
+      {objectType: "planet", pos: [1280,285] , radius:60, planetType: 'red'},
+      {objectType: "planet", pos: [1460,105] , radius:60, planetType: 'green'},
+      {objectType: "planet", pos: [20,735] , radius:60, planetType: 'red'},
+      {objectType: "zone", topLeft: [0, 800], bottomRight: [300, 900], zoneType: 'starting'}
     ]
   };
 
@@ -56,7 +68,8 @@
     level1: "level2",
     level2: "level3",
     level3: "level4",
-    level4: "end"
+    level4: "level5",
+    level5: "end"
   };
 
   LevelGenerator.prototype.generateLevel = function (levelName) {
