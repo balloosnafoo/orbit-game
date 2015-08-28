@@ -56,16 +56,20 @@
   };
 
   Game.prototype.objectFromOptions = function (options) {
-    options.image = this.images.moon;
-    var x = this.width * (options.pos[0] / 1700);
-    var y = this.height * (options.pos[1] / 900);
-    var velX = this.width * (options.vel[0] / 1700);
-    var velY = this.height * (options.vel[1] / 900);
-    var radius = this.width * (options.radius / 1700);
+    debugger;
+    if (!options.alreadyScaled) {
+      options.image = this.images.moon;
+      var x = this.width * (options.pos[0] / 1700);
+      var y = this.height * (options.pos[1] / 900);
+      var velX = this.width * (options.vel[0] / 1700);
+      var velY = this.height * (options.vel[1] / 900);
+      var radius = this.width * (options.radius / 1700);
 
-    options.pos = [x, y];
-    options.vel = [velX, velY];
-    options.radius = radius;
+      options.pos = [x, y];
+      options.vel = [velX, velY];
+      options.radius = radius;
+      options.alreadyScaled = true;
+    }
 
     this.asteroids.push(new Asteroids.Asteroid(options));
   };
@@ -111,14 +115,19 @@
   };
 
   Game.prototype.planetFromOptions = function (options) {
-    var x = this.width * (options.pos[0] / 1700);
-    var y = this.height * (options.pos[1] / 900);
-    var radius = this.width * (options.radius / 1700);
+    if (!options.alreadyScaled) {
+      var x = this.width * (options.pos[0] / 1700);
+      var y = this.height * (options.pos[1] / 900);
+      options.pos = [x, y];
+
+      options.radius = this.width * (options.radius / 1700);
+      options.alreadyScaled = true;
+    }
 
     this.planets.push(
       new Asteroids.Planet({
-        pos: [x, y],
-        radius: radius,
+        pos: options.pos,
+        radius: options.radius,
         image: this.images[options.planetType],
         antigravity: options.antigravity
       })

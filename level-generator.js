@@ -9,7 +9,7 @@
 
   LevelGenerator.LEVEL_OBJECTS = {
     initial: [
-      {objectType: "asteroid", pos: [870, 840], vel: [4, 0], image: "moon"},
+      {objectType: "asteroid", pos: [870, 840], radius: 20, vel: [4, 0], image: "moon"},
       {objectType: "planet", pos: [850,465] , radius:154, planetType: 'earth'}
     ],
 
