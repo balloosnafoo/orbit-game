@@ -257,8 +257,6 @@
   Game.prototype.calculateGravity = function (object, otherObject) {
     var gravVec = Asteroids.Util.connectingVector(object.pos, otherObject.pos);
     var distance = Asteroids.Util.distance(object.pos, otherObject.pos);
-
-    var objectMass      = (4 / 3) * Math.PI * Math.pow(object.radius, 3);
     var otherObjectMass = (4 / 3) * Math.PI * Math.pow(otherObject.radius, 3);
 
     var pull = .000001 * ( (otherObjectMass) / (distance * distance));
