@@ -56,7 +56,6 @@
   };
 
   Game.prototype.objectFromOptions = function (options) {
-    debugger;
     if (!options.alreadyScaled) {
       options.image = this.images.moon;
       var x = this.width * (options.pos[0] / 1700);
@@ -323,17 +322,6 @@
     } else {
       maybeReflectionY = 1;
     }
-
-    var x1 = object.pos[0] + object.vel[0];
-    var y1 = object.pos[1] + object.vel[1];
-    var vectorLength = Asteroids.Util.distance(object.pos, [x1, y1]);
-    var toOtherObject = Asteroids.Util.distance(object.pos, otherObject.pos);
-    debugger
-    var angle = Math.acos(
-      (x1*otherObject.pos[0])+(y1*otherObject.pos[1]) /
-      (vectorLength * toOtherObject)
-    );
-    console.log(angle);
 
     for (var angle=0; angle<360; angle += Math.round(360/count)) {
       var radius = Asteroids.Util.randomFloat(minSize, maxSize);
