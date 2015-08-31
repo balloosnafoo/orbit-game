@@ -75,23 +75,34 @@
   };
 
   Game.prototype.objectFromClick = function (pos) {
-    var velocity = Asteroids.Util.connectingVector(
-      this.clickOrigin,
-      pos
-    );
+    if (this.startingZone && this.validClick()) {
+      var velocity = Asteroids.Util.connectingVector(
+        this.clickOrigin,
+        pos
+      );
 
-    velocity[0] *= .025;
-    velocity[1] *= .025;
+      velocity[0] *= .025;
+      velocity[1] *= .025;
 
-    var newAsteroid = new Asteroids.Asteroid({
-      pos: this.clickOrigin,
-      vel: velocity,
-      image: this.images.moon,
-      radius: this.objectSize
-    });
+      var newAsteroid = new Asteroids.Asteroid({
+        pos: this.clickOrigin,
+        vel: velocity,
+        image: this.images.moon,
+        radius: this.objectSize
+      });
 
-    this.asteroids.push(newAsteroid);
+      this.asteroids.push(newAsteroid);
+    }
   };
+
+  Game.prototype.validClick = function () {
+    if (
+      this.clickOrigin[0] < this.startingZone.topLeft[0] ||
+      this.clickOrigin[0] > this.startingZone.bottomRight[0] ||
+      this.clickOrigin[1] < this.startingZone.topLeft[1] ||
+      this.clickOrigin[1] > this.startingZone.bottomRight[1]
+    ) { return false; } else { return true; }
+  }
 
   Game.prototype.setObjectOrigin = function (pos) {
     this.clickOrigin = pos;
