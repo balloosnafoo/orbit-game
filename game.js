@@ -74,7 +74,9 @@
   };
 
   Game.prototype.objectFromClick = function (pos) {
-    if (this.startingZone && this.validClick()) {
+    if ( !this.startingZone ||
+      ( this.startingZone && this.validClick() )
+    ) {
       var velocity = Asteroids.Util.connectingVector(
         this.clickOrigin,
         pos
@@ -96,6 +98,7 @@
 
   Game.prototype.validClick = function () {
     if (
+      !this.startingZone ||
       this.clickOrigin[0] < this.startingZone.topLeft[0] ||
       this.clickOrigin[0] > this.startingZone.bottomRight[0] ||
       this.clickOrigin[1] < this.startingZone.topLeft[1] ||
@@ -288,6 +291,17 @@
   };
 
   Game.prototype.zoneFromOptions = function (options) {
+    if (!options.alreadyScaled) {
+      debugger;
+      var topLeftX = (options.topLeft[0] / 1700) * this.width;
+      var topLeftY = (options.topLeft[1] / 900) * this.height;
+      options.topLeft = [topLeftX, topLeftY];
+
+      var bottomRightX = (options.bottomRight[0] / 1700) * this.width;
+      var bottomRightY = (options.bottomRight[1] / 900) * this.height;
+      options.bottomRight = [bottomRightX, bottomRightY]
+      options.alreadyScaled = true;
+    }
     this.startingZone = new Asteroids.StartingZone({
       topLeft: options.topLeft,
       bottomRight: options.bottomRight
