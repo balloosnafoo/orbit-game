@@ -292,7 +292,6 @@
 
   Game.prototype.zoneFromOptions = function (options) {
     if (!options.alreadyScaled) {
-      debugger;
       var topLeftX = (options.topLeft[0] / 1700) * this.width;
       var topLeftY = (options.topLeft[1] / 900) * this.height;
       options.topLeft = [topLeftX, topLeftY];
