@@ -92,6 +92,7 @@
         radius: this.objectSize
       });
 
+      this.clickOrigin = undefined;
       this.asteroids.push(newAsteroid);
     }
   };
@@ -256,6 +257,10 @@
       this.startingZone.draw(ctx);
     }
 
+    if (this.clickOrigin) {
+      this.drawClickArrow(ctx);
+    }
+
     // Draws the planets and moons
     this.allObjects().forEach(function (object) {
       object.draw(ctx);
@@ -264,7 +269,23 @@
     this.particles.forEach(function (object) { object.draw (ctx); });
 
     // Draws the cursor
-    this.cursor.draw(ctx);
+    if ( this.sandbox ) { this.cursor.draw(ctx); }
+  };
+
+  Game.prototype.drawClickArrow = function() {
+    ctx.fillStyle = '#ccddff';
+    ctx.beginPath();
+    ctx.moveTo(this.clickOrigin[0], this.clickOrigin[1]);
+    ctx.lineTo(this.currentMousePos[0], this.currentMousePos[1]);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = 'rgb(0,128,0)';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+  };
+
+  Game.prototype.updateCurrentMouse = function (pos) {
+    this.currentMousePos = pos;
   };
 
   Game.prototype.calculateGravity = function (object, otherObject) {

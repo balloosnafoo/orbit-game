@@ -134,9 +134,11 @@
           var canvas = document.getElementById("game-canvas");
           canvas.addEventListener("mousedown", getPosition, false);
           canvas.addEventListener("mouseup", getPosition, false);
+          canvas.addEventListener("mousemove", getPosition, false);
         }
 
         var getPosition = function (event) {
+          if (!game.clickOrigin && event.type !== "mousedown") { return; }
           var x = new Number();
           var y = new Number();
           var canvas = document.getElementById("game-canvas");
@@ -156,8 +158,11 @@
 
           if (event.type === "mousedown") {
             game.setObjectOrigin([x, y]);
-          } else {
+            game.updateCurrentMouse([x, y]);
+          } else if (event.type === "mouseup") {
             game.objectFromClick([x, y])
+          } else {
+            game.updateCurrentMouse([x, y]);
           }
         }
 
