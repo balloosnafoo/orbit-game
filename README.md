@@ -31,12 +31,12 @@ distance from one another, and it follows the law of inverse squares.
 
 ## Game Modes
 
-### Earth mode
+### Earth Mode
 
 There is a single planet and a moon already in orbit. The intention is that
 users will check out this map and get a feel for the game mechanics.
 
-### Level mode
+### Level Mode
 
 This presents players with a series of levels in which the current goal is to
 throw a moon from the starting area and collide with the green planet. Obstacles
@@ -44,13 +44,21 @@ are red planets, which behave normally, and purple planets, which have
 antigravity fields (accomplished by simply negating both parts of the gravity
 vector).
 
-### Sandbox mode
+### Sandbox Mode
 
 This allows users to create levels using red, green, purple, and earth planets.
 One of my goals here is to set up something so that users can save the levels
 that they've created and make them available to anyone who plays the game.
 Currently, the / key logs the planets information to the console, and invites
 the user to send me the output.
+
+### Multiplayer Mode (Under Development)
+
+[Live Demo](https://orbit-multi.herokuapp.com/)
+
+Multiplayer game built from this code base deployed on Heroku using node/express
+as a backend and socket.io to allow players to create objects in the same space.
+Check out the [repo](https://github.com/balloosnafoo/orbit-multi) for more info.
 
 ## Other features
 
